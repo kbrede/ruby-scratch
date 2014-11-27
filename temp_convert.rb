@@ -7,15 +7,15 @@ OptionParser.new do |opts|
   opts.banner = "Converts Fahrenheit to Celsius and Celsius to Fahrenheit.\nUsage: temp_convert.rb [options]"
 
   opts.on('-f', '--f2c number', Float, "Example: #{$0} -f 32") do |f|
-    options[:fopt] = f
+    @temp = options[:fopt] = f
   end
 
   opts.on('-c', '--c2f number', Float, "Example: #{$0} -c 0") do |c|
-    options[:copt] = c
+    @temp = options[:copt] = c
   end
 
   # if no args, print help
-  if ARGV.length == 0
+  if ARGV.length <= 1
     puts opts
     exit 1
   end
@@ -57,25 +57,22 @@ OptionParser.new do |opts|
   
 end.parse!
 
-# set temperature variables
-ftemp = options[:fopt]
-ctemp = options[:copt]
+# grab key and convert to string
+temp_option = options.keys.first.to_s
+# set temperature var
+temp = @temp
 
-# convert Fahrenheit to Celsius
-def ftoc(ftemp)
-  temp_celsius = (ftemp - 32) * 0.5556
-  puts "#{ftemp}F = #{temp_celsius.round(2)}C"
+# temperature convert function
+def convert_temp(temp_option, temp)
+  if temp_option == "fopt"
+    # convert Fahrenheit to Celsius
+    temp_celsius = (temp - 32) * 0.5556
+    puts "#{temp}F = #{temp_celsius.round(2)}C"
+  else
+    # convert Celsius to Fahrenheit
+    temp_fahrenheit = (temp * 1.8) + 32
+    puts "#{temp}C = #{temp_fahrenheit.round(2)}F"
+  end
 end
 
-# convert Celsius to Fahrenheit
-def ctof(ctemp)
-  temp_fahrenheit = (ctemp * 1.8) + 32
-  puts "#{ctemp}C = #{temp_fahrenheit.round(2)}F"
-end
-
-# call correct method
-if options.has_key?(:fopt)
-  ftoc(ftemp)
-else
-  ctof(ctemp)
-end
+convert_temp(temp_option, temp)
