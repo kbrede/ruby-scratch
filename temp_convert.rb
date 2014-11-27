@@ -17,7 +17,7 @@ OptionParser.new do |opts|
   # if no args, print help
   if ARGV.length == 0
     puts opts
-    exit
+    exit 1
   end
   
   # method to check if string is numerical
@@ -31,7 +31,7 @@ OptionParser.new do |opts|
   num = ARGV[1]
   unless num.is_number?
     puts opts
-    exit
+    exit 1
   end
 
   # handle rest of errors
